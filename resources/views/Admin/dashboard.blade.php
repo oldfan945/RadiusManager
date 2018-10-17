@@ -19,7 +19,7 @@
 @section('content-body')
     <!-- Revenue, Hit Rate & Deals -->
     <div class="row">
-        <div class="col-lg-6 col-12">
+        <div class="col-lg-3 col-12">
             <div class="card pull-up">
                 <div class="card-content">
                     <div class="card-body">
