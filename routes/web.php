@@ -12,6 +12,10 @@
 */
 Auth::routes();
 
+Route::get('/register', function(){
+    return redirect()->route('login');
+});
+
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('logout','Auth\LoginController@logout');
