@@ -6,7 +6,7 @@
                 <li class="nav-item mr-auto">
                     <a class="navbar-brand" href="/">
                         <img class="brand-logo" alt="modern admin logo" src="dist/app-assets/images/logo/logo.png">
-                        <h3 class="brand-text">Modern Admin</h3>
+                        <h3 class="brand-text">MACHINES</h3>
                     </a>
                 </li>
                 <li class="nav-item d-md-none">
