@@ -149,7 +149,7 @@
          $(document).ready(function (e) {
 
 
-            $("#macaddress").inputmask("##-##-##-##-##");
+            $("#macaddress").inputmask("##-##-##-##-##-##");
 
             mytable = $('.dynamic-table').DataTable({
                 "processing": true,
