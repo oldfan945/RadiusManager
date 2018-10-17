@@ -3,6 +3,9 @@
 @section('content')
     <div class="container">
         <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <img class="img-fluid" style="height: 80px; padding: 15px;" src="/images/logo.png"/>
+            </div>
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Admin Login') }}</div>
@@ -56,10 +59,6 @@
                                     <button type="submit" class="btn btn-primary">
                                         {{ __('Login') }}
                                     </button>
-
-                                    <a class="btn btn-link" href="{{ route('admin.password.request') }}">
-                                        Forgot Your Password?
-                                    </a>
                                 </div>
                             </div>
                         </form>
