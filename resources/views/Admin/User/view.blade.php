@@ -61,35 +61,35 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="users" method="post" id="addform">
-                    @csrf
-                    <div class="modal-body">
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="title">Name</label>
-                            <input type="text" class="form-control" required="true" id="name" name="name"
-                                   placeholder="Enter Name">
-                        </fieldset>
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="description">Username</label>
-                            <input type="text" class="form-control" required="true" id="username" name="username"
-                                   placeholder="Enter UserName">
-                        </fieldset>
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="duration">Email</label>
-                            <input type="email" class="form-control" required="true"
-                                   id="email" name="email" placeholder="Enter Email">
-                        </fieldset>
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="poster">Password</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                   placeholder="Enter Password">
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
-                        <input type="submit" class="btn btn-outline-primary btn-lg" value="Add">
-                    </div>
-                </form>
+                {!! Form::open(['url'=>'users','method'=>'post', 'id'=>'addform', 'class'=>'form form-horizontal']) !!}
+                @csrf
+                <div class="modal-body">
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="title">Apartment</label>
+                        {!!Form::select('apartment_id', $apartments, null, ['id'=>'apartment_id', 'class' => 'form-control', 'required'=>'true'])!!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="title">Name</label>
+                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="description">Username</label>
+                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="duration">Email</label>
+                        {!! Form::email('email',null,['id'=>'email', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Email']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="poster">Password</label>
+                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password']) !!}
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Add">
+                </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -104,36 +104,38 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form method="post" action="" id="editform">
-                    @csrf
-                    <input type="hidden" name="_method" value="PATCH">
-                    <div class="modal-body">
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="title">Name</label>
-                            <input type="text" class="form-control" required="true" id="name" name="name"
-                                   placeholder="Enter Name">
-                        </fieldset>
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="description">Username</label>
-                            <input type="text" class="form-control" required="true" id="username" name="username"
-                                   placeholder="Enter UserName">
-                        </fieldset>
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="duration">Email</label>
-                            <input type="email" class="form-control" required="true"
-                                   id="email" name="email" placeholder="Enter Email">
-                        </fieldset>
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="poster">Password</label>
-                            <input type="password" class="form-control" id="password" name="password"
-                                   placeholder="Enter Password">
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
-                        <input type="submit" class="btn btn-outline-primary btn-lg" value="Update">
-                    </div>
-                </form>
+
+                {!! Form::model($users,['url'=>'','method'=>'post', 'id'=>'editform']) !!}
+
+                @csrf
+                <input type="hidden" name="_method" value="PATCH">
+                <div class="modal-body">
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="title">Apartment</label>
+                        {!!Form::select('apartment_id', $apartments, null, ['id'=>'apartment_id', 'class' => 'form-control', 'required'=>'true'])!!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="title">Name</label>
+                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="description">Username</label>
+                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="duration">Email</label>
+                        {!! Form::email('email',null,['id'=>'email', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Email']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="poster">Password</label>
+                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password']) !!}
+                    </fieldset>
+                </div>
+                <div class="modal-footer">
+                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
+                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update">
+                </div>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -213,10 +215,12 @@
         $(document).on('click', '.edit', function () {
 
             var id = $(this).data("id");
+            var apartment_id = $(this).data("apartment-id");
             var name = $(this).data("name");
             var username = $(this).data("username");
             var email = $(this).data("email");
 
+            $('#editform #apartment_id').val(apartment_id);
             $('#editform #name').val(name);
             $('#editform #username').val(username);
             $('#editform #email').val(email);

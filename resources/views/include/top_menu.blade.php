@@ -4,6 +4,7 @@
             <li class=" nav-item"><a href="/"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">Dashboard</span></a>
             </li>
             @auth('admin')
+            <li class=" nav-item"><a href="/apartments"><i class="la la-bank"></i><span class="menu-title">Apartments</span></a></li>
             <li class=" nav-item"><a href="/users"><i class="la la-user"></i><span class="menu-title">Users</span></a></li>
             @endauth
             @auth('web')

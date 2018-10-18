@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Apartment;
 use DataTables;
 use Illuminate\Http\Request;
 
@@ -15,7 +16,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('Admin.User.view');
+        $users = User::all();
+        $apartments = Apartment::pluck('name', 'id');
+        return view('Admin.User.view',compact('users','apartments'));
     }
 
     /**
@@ -37,6 +40,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'apartment_id' => 'required',
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:20|unique:users',
             'email' => 'required|string|email|max:190|unique:users',
@@ -87,6 +91,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
+            'apartment_id' => 'required',
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:20',
             'email' => 'required|string|email|max:190',
@@ -130,7 +135,7 @@ class UserController extends Controller
 
         return DataTables::of($users)
             ->addColumn('edit', function ($user) {
-                return '<button type="button" class="edit btn btn-sm btn-primary" data-name="' . $user->name . '" data-username="' . $user->username . '" data-email="' . $user->email . '" data-id="' . $user->id . '">Edit</button>';
+                return '<button type="button" class="edit btn btn-sm btn-primary" data-apartment-id="' . $user->apartment_id . '" data-name="' . $user->name . '" data-username="' . $user->username . '" data-email="' . $user->email . '" data-id="' . $user->id . '">Edit</button>';
             })
             ->addColumn('delete', function ($user) {
                 return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="' . $user->id . '" data-token="' . csrf_token() . '" >Delete</button>';

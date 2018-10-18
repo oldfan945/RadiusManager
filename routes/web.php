@@ -36,6 +36,9 @@ Route::group(['middleware'=>'auth:admin'], function() {
     // Admin Home routes
     Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
 
+    /* For Apartments */
+    Route::get('apartments/getDataTable','ApartmentController@getDataTable');
+    Route::resource('apartments', 'ApartmentController');
     /* For Users */
     Route::get('users/getDataTable','UserController@getDataTable');
     Route::resource('users', 'UserController');

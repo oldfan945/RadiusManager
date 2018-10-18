@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'email', 'password',
+        'apartment_id', 'name', 'username', 'email', 'password',
     ];
 
     /**
@@ -38,8 +38,9 @@ class User extends Authenticatable
         return $this->hasMany(Radreply::class);
     }
 
-    /* public function setPasswordAttribute($value)
+    public function apartments()
     {
-        $this->attributes['password'] = bcrypt($value);
-    }*/
+        return $this->hasMany(Apartment::class);
+    }
+
 }
