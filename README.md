@@ -1,24 +1,14 @@
 # Radius Manager
 
-18.10.2018
+Mitul Gadhiya | Prakash Gujarati
 
-**─**
-
-MITUL GADHIYA
-
-JAYNATH INFOTECH
-
-2-GF, NEAR GADHIYA PETROL PUMP,
-
-MAHUVA ROAD,
-
-SAVARKUNDLA (GUJ) INDIA
+(c) JAYNATH INFOTECH
 
 # Overview
 
 The  purpose  of  this  project  is  to  provide  an  Administration  and  End  User  GUI  interface  for  FreeRadius  entries  into  the  MySQL  Database.
 
-Installation for UBUNTU 16.04.XX
+## Installation for UBUNTU 16.04.XX
 
 # Login as ROOT
 
@@ -47,6 +37,7 @@ apt-get update
 apt-get install -y php7.2 php7.2-fpm php-mysql php7.2-mysql php-mbstring php-gettext php-doctrine-dbal php-xml php-zip
 
 sudo -- sh -c "echo 'cgi.fix_pathinfo=0' >> /etc/php/7.2/fpm/php.ini"
+
 sudo -- sh -c "echo 'cgi.fix_pathinfo=0' >> /etc/php/7.2/cli/php.ini"
 
 sudo service php7.2-fpm restart
