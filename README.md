@@ -46,15 +46,14 @@ apt-get update
 
 apt-get install -y php7.2 php7.2-fpm php-mysql php7.2-mysql php-mbstring php-gettext php-doctrine-dbal php-xml php-zip
 
-sudo -- sh -c &quot;echo &#39;cgi.fix\_pathinfo=0&#39; \&gt;\&gt; /etc/php/7.2/fpm/php.ini&quot;
-
-sudo -- sh -c &quot;echo &#39;cgi.fix\_pathinfo=0&#39; \&gt;\&gt; /etc/php/7.2/cli/php.ini&quot;
+sudo -- sh -c "echo 'cgi.fix_pathinfo=0' >> /etc/php/7.2/fpm/php.ini"
+sudo -- sh -c "echo 'cgi.fix_pathinfo=0' >> /etc/php/7.2/cli/php.ini"
 
 sudo service php7.2-fpm restart
 
 # Install Composer for Laravel
 
-curl -sS[https://getcomposer.org/installer](https://getcomposer.org/installer) | sudo php -- --install-dir=/usr/local/bin --filename=composer
+curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install MySQL Server
 
@@ -84,17 +83,17 @@ ln -s /etc/freeradius/mods-available/sql /etc/freeradius/mods-enabled/sql
 
 mysql -uroot -p
 
-\&lt;\&lt; ENTER YOUR MYSQL ROOT PASSWORD WHEN PROMPT \&gt;\&gt;
+<< ENTER YOUR MYSQL ROOT PASSWORD WHEN PROMPT >>
 
 CREATE DATABASE radius;
-GRANT ALL ON radius.\* TO radius@localhost IDENTIFIED BY &quot;radpass&quot;;
+GRANT ALL ON radius.* TO radius@localhost IDENTIFIED BY "radpass";
 exit
 
 # Clone Radius Manager from Github 
 
 cd /var/www/html
 
-git clone [https://github.com/PrakashGujarati/RadiusManager.git](https://github.com/PrakashGujarati/RadiusManager.git)
+git clone https://github.com/PrakashGujarati/RadiusManager.git 
 
 chown www-data:www-data -R RadiusManager
 
