@@ -11,14 +11,14 @@ class PostInstallNginx extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'nginx:install';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Move Nginx Config Post Nginx Installation';
 
     /**
      * Create a new command instance.
