@@ -28,6 +28,6 @@ class CreateMacaddressesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('macaddresses');
+        Schema::dropIfExists('mac_addresses');
     }
 }
