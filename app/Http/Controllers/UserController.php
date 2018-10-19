@@ -57,7 +57,7 @@ class UserController extends Controller
         ]);
 
         $user->radreplies()->create([
-            'attribute' => ' Tunnel-Private-Group-Id ',
+            'attribute' => 'Tunnel-Private-Group-Id',
             'value' => $user->apartment->vlan_id
         ]);
 
@@ -112,10 +112,22 @@ class UserController extends Controller
                 'value' => '13'
             ]);
         }
+
         if (!$user->radreplies()->where('attribute', 'Tunnel-Medium-Type')->first()) {
             $user->radreplies()->create([
                 'attribute' => 'Tunnel-Medium-Type',
                 'value' => '6'
+            ]);
+        }
+
+        if (!$user->radreplies()->where('attribute', 'Tunnel-Private-Group-Id')->first()) {
+            $user->radreplies()->create([
+                'attribute' => 'Tunnel-Private-Group-Id',
+                'value' => $user->apartment->vlan_id
+            ]);
+        } else {
+            $user->radreplies()->where('attribute', 'Tunnel-Private-Group-Id')->first()->update([
+                'value' => $user->apartment->vlan_id
             ]);
         }
 
