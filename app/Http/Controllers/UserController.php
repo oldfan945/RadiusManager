@@ -18,7 +18,7 @@ class UserController extends Controller
     {
         $users = User::all();
         $apartments = Apartment::pluck('name', 'id');
-        return view('Admin.User.view',compact('users','apartments'));
+        return view('Admin.User.view', compact('users', 'apartments'));
     }
 
     /**
@@ -55,6 +55,12 @@ class UserController extends Controller
             'attribute' => 'Tunnel-Medium-Type',
             'value' => '6'
         ]);
+
+        $user->radreplies()->create([
+            'attribute' => ' Tunnel-Private-Group-Id ',
+            'value' => $user->apartment->vlan_id
+        ]);
+
         return response('success');
 
     }

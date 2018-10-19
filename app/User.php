@@ -38,9 +38,9 @@ class User extends Authenticatable
         return $this->hasMany(Radreply::class);
     }
 
-    public function apartments()
+    public function apartment()
     {
-        return $this->hasMany(Apartment::class);
+        return $this->belongsTo(Apartment::class);
     }
 
 }
