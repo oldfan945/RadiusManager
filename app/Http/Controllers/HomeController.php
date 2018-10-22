@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Movie;
+use Auth;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +15,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+
     }
 
     /**
@@ -24,7 +25,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        return view('Client.dashboard');
+        if (Auth::guard('web')->check())
+        {
+            return redirect('macaddress');
+        }
+        if (Auth::guard('admin')->check())
+        {
+            return redirect('admin');
+        }
+        return redirect('login');
+        //return view('Client.dashboard');
     }
 }
