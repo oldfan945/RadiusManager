@@ -70,6 +70,8 @@ service freeradius stop
 
 ln -s /etc/freeradius/mods-available/sql /etc/freeradius/mods-enabled/sql
 
+ln -s /etc/freeradius/sites-available/dynamic-clients /etc/freeradius/sites-enabled/dynamic-clients
+
 # Create MySQL Database and User for Application
 
 mysql -uroot -p
