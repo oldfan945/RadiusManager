@@ -43,7 +43,6 @@ class UserController extends Controller
             'apartment_id' => 'required',
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:20|unique:users',
-            'email' => 'required|string|email|max:190|unique:users',
         ]);
 
         $user = User::create($request->all());
@@ -100,7 +99,6 @@ class UserController extends Controller
             'apartment_id' => 'required',
             'name' => 'required|string|max:255',
             'username' => 'required|string|max:20',
-            'email' => 'required|string|email|max:190',
         ]);
 
         $user = User::findOrFail($id);
@@ -149,11 +147,11 @@ class UserController extends Controller
 
     public function getDataTable()
     {
-        $users = User::all();
+        $users = User::with('apartment');
 
         return DataTables::of($users)
             ->addColumn('edit', function ($user) {
-                return '<button type="button" class="edit btn btn-sm btn-primary" data-apartment-id="' . $user->apartment_id . '" data-name="' . $user->name . '" data-username="' . $user->username . '" data-email="' . $user->email . '" data-id="' . $user->id . '">Edit</button>';
+                return '<button type="button" class="edit btn btn-sm btn-primary" data-apartment-id="' . $user->apartment_id . '" data-name="' . $user->name . '" data-username="' . $user->username . '" data-id="' . $user->id . '">Edit</button>';
             })
             ->addColumn('delete', function ($user) {
                 return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="' . $user->id . '" data-token="' . csrf_token() . '" >Delete</button>';

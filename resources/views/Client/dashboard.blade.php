@@ -22,8 +22,8 @@
 
 
     <!-- BEGIN PAGE LEVEL JS-->
-    <script type="text/javascript" src="dist/app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
-    <script src="dist/app-assets/js/scripts/pages/dashboard-sales.js" type="text/javascript"></script>
+    <script type="text/javascript" src="{{asset('dist/app-assets/js/scripts/ui/breadcrumbs-with-stats.js')}}"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/pages/dashboard-sales.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->
 
 @stop

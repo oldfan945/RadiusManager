@@ -1,12 +1,11 @@
 @extends('layouts.template')
 
-@section('title',"View Apartments")
+@section('title',"View MacAddress")
 
 @section('head')
     <!-- BEGIN Page Level CSS-->
     <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/extensions/sweetalert.css')}}">
-
 @stop
 
 <!-- content-body -->
@@ -19,7 +18,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Apartments</h4>
+                        <h4 class="card-title">Mac Address</h4>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <button type="button" class="btn btn-outline-warning block btn-lg" data-toggle="modal"
@@ -34,9 +33,9 @@
                             <table class="table table-striped table-bordered dynamic-table">
                                 <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>Vlan_id</th>
-                                    <th width="50px;">Edit</th>
+                                    <th>User</th>
+                                    <th>Mac Address</th>
+                                    <th width="50px">Permanent</th>
                                     <th width="50px;">Delete</th>
                                 </tr>
                                 </thead>
@@ -55,64 +54,33 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel35"> Add Apartment</h3>
+                    <h3 class="modal-title" id="myModalLabel35"> Add MacAddress</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="apartments" method="post" id="addform">
+                {!! Form::open(['url'=>'adminmacaddress','method'=>'post', 'id'=>'addform', 'class'=>'form form-horizontal']) !!}
                     @csrf
                     <div class="modal-body">
                         <fieldset class="form-group floating-label-form-group">
-                            <label for="title">Name</label>
-                            <input type="text" class="form-control" required="true" id="name" name="name"
-                                   placeholder="Enter Name">
+                            <label for="title">User</label>
+                            {!!Form::select('user_id', $users, null, ['id'=>'user_id', 'class' => 'form-control', 'required'=>'true'])!!}
                         </fieldset>
                         <fieldset class="form-group floating-label-form-group">
-                            <label for="description">Vlan_id</label>
-                            <input type="text" class="form-control" required="true" id="vlan_id" name="vlan_id"
-                                   placeholder="Enter Vlan Id">
+                            <label for="adminmacaddress">Mac Address</label>
+                            <input type="text" class="form-control" id="macaddress" name="macaddress"
+                                   placeholder="Enter Mac Address">
+                        </fieldset>
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="perminent">Perminent</label>
+                            {!!Form::checkbox('is_permanent', true, null, ['id'=>'is_permanent'])!!}
                         </fieldset>
                     </div>
                     <div class="modal-footer">
                         <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
                         <input type="submit" class="btn btn-outline-primary btn-lg" value="Add">
                     </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade text-left" id="editmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel35"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel35"> Edit Apartment</h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form method="post" action="" id="editform">
-                    @csrf
-                    <input type="hidden" name="_method" value="PATCH">
-                    <div class="modal-body">
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="title">Name</label>
-                            <input type="text" class="form-control" required="true" id="name" name="name"
-                                   placeholder="Enter Name">
-                        </fieldset>
-                        <fieldset class="form-group floating-label-form-group">
-                            <label for="description">Vlan_id</label>
-                            <input type="text" class="form-control" required="true" id="vlan_id" name="vlan_id"
-                                   placeholder="Enter Vlan Id">
-                        </fieldset>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
-                        <input type="submit" class="btn btn-outline-primary btn-lg" value="Update">
-                    </div>
-                </form>
+                {!! Form::close() !!}
             </div>
         </div>
     </div>
@@ -127,6 +95,7 @@
     <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/inputmask/jquery.inputmask.bundle.js')}}"></script>
 
     <!-- END PAGE LEVEL JS-->
 
@@ -165,7 +134,7 @@
                     if (isConfirm) {
                         $.ajax(
                             {
-                                url: "apartments/" + id,
+                                url: "adminmacaddress/" + id,
                                 type: 'POST',
                                 data: {
                                     "id": id,
@@ -187,30 +156,20 @@
                 });
         });
 
-        /* RETRIVE DATA For Editing Purpose */
-        $(document).on('click', '.edit', function () {
+         $(document).ready(function (e) {
 
-            var id = $(this).data("id");
-            var name = $(this).data("name");
-            var vlan_id = $(this).data("vlan-id");
 
-            $('#editform #name').val(name);
-            $('#editform #vlan_id').val(vlan_id);
-            $('#editform').attr('action', 'apartments/' + id);
-            $('#editmodel').modal('show');
-        });
-
-        $(document).ready(function (e) {
+            $("#macaddress").inputmask("##-##-##-##-##-##");
 
             mytable = $('.dynamic-table').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "{{ url('apartments/getDataTable') }}",
+                "ajax": "{{ url('adminmacaddress/getDataTable') }}",
 
                 columns: [
-                    {data: "name"},
-                    {data: "vlan_id"},
-                    {data: "edit"},
+                    {data: "user.name"},
+                    {data: "macaddress"},
+                    {data: "is_permanent"},
                     {data: "delete"}
                 ]
             });
@@ -250,40 +209,7 @@
                 }
             });
 
-            /* EDIT Record using AJAX Requres */
-            var editaddformValidator = $("#editform").validate({
-                ignore: ":hidden",
-                errorElement: "span",
-                errorClass: "text-danger",
-                validClass: "text-success",
-                highlight: function (element, errorClass, validClass) {
-                    $(element).addClass(errorClass);
-                    $(element.form).find("span[id=" + element.id + "-error]").addClass(errorClass);
-                },
-                unhighlight: function (element, errorClass, validClass) {
-                    $(element).removeClass(errorClass);
-                    $(element.form).find("span[id=" + element.id + "-error]").removeClass(errorClass);
-                },
-                submitHandler: function (form) {
-                    $.ajax({
-                        type: "POST",
-                        url: $(form).attr('action'),
-                        method: $(form).attr('method'),
-                        data: $(form).serialize(),
-                        success: function (data) {
-                            $('#editmodel').modal('hide');
-                            swal("Good job!", "Your Record Updated Successfully", "success");
-                            $(form).trigger('reset');
-                            mytable.draw();
-                        },
-                        error: function (XMLHttpRequest, textStatus, errorThrown) {
-                            var response = JSON.parse(XMLHttpRequest.responseText);
-                            editaddformValidator.showErrors(response.errors);
-                        }
-                    });
-                    return false; // required to block normal submit since you used ajax
-                }
-            });
+
         });
     </script>
 

@@ -17,6 +17,7 @@ class CreateMacaddressesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id')->references('id')->on('users');
             $table->string('macaddress');
+            $table->boolean('is_permanent')->default(false);
             $table->timestamps();
         });
     }

@@ -36,18 +36,29 @@ Route::group(['middleware'=>'auth:admin'], function() {
     // Admin Home routes
     Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
 
+    Route::resource('admin/profile', 'AdminProfileController');
+
     /* For Apartments */
     Route::get('apartments/getDataTable','ApartmentController@getDataTable');
     Route::resource('apartments', 'ApartmentController');
+
     /* For Users */
     Route::get('users/getDataTable','UserController@getDataTable');
     Route::resource('users', 'UserController');
+
+    /* For Mac Addresses */
+    Route::get('adminmacaddress/getDataTable','AdminMacAddressController@getDataTable');
+    Route::resource('adminmacaddress', 'AdminMacAddressController');
+
+    /* For Mac Addresses */
+    Route::get('nas/getDataTable','NasController@getDataTable');
+    Route::resource('nas', 'NasController');
 });
 
 
 Route::group(['middleware'=>'auth'], function() {
 
-    Route::resource('userProfile', 'UserProfileController');
+
 
     Route::get('macaddress/getDataTable','MacAddressController@getDataTable');
     Route::resource('macaddress', 'MacAddressController');

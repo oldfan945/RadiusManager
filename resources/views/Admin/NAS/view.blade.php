@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title',"View Users")
+@section('title',"View NAS")
 
 @section('head')
     <!-- BEGIN Page Level CSS-->
@@ -19,7 +19,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Users</h4>
+                        <h4 class="card-title">NAS</h4>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <button type="button" class="btn btn-outline-warning block btn-lg" data-toggle="modal"
@@ -35,8 +35,9 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Appartment</th>
+                                    <th>Secret</th>
+                                    <th>IPAddress</th>
+                                    <th>Description</th>
                                     <th width="50px;">Edit</th>
                                     <th width="50px;">Delete</th>
                                 </tr>
@@ -56,36 +57,40 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel35"> Add User</h3>
+                    <h3 class="modal-title" id="myModalLabel35"> Add Apartment</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {!! Form::open(['url'=>'users','method'=>'post', 'id'=>'addform', 'class'=>'form form-horizontal']) !!}
-                @csrf
-                <div class="modal-body">
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Apartment</label>
-                        {!!Form::select('apartment_id', $apartments, null, ['id'=>'apartment_id', 'class' => 'form-control', 'required'=>'true'])!!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Name</label>
-                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="description">Username</label>
-                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="poster">Password</label>
-                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password']) !!}
-                    </fieldset>
-                </div>
-                <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Add">
-                </div>
-                {!! Form::close() !!}
+                <form action="nas" method="post" id="addform">
+                    @csrf
+                    <div class="modal-body">
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" required="true" id="name" name="name"
+                                   placeholder="Enter Name">
+                        </fieldset>
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="secret">Secret</label>
+                            <input type="text" class="form-control" required="true" id="secret" name="secret"
+                                   placeholder="Enter Secret">
+                        </fieldset>
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="ipaddress">IP Address</label>
+                            <input type="text" class="form-control" required="true" id="ipaddress" name="ipaddress"
+                                   placeholder="Enter IP Address">
+                        </fieldset>
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="description">description</label>
+                            <input type="text" class="form-control" required="true" id="description" name="description"
+                                   placeholder="Enter Description">
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
+                        <input type="submit" class="btn btn-outline-primary btn-lg" value="Add">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -95,39 +100,41 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel35"> Edit User</h3>
+                    <h3 class="modal-title" id="myModalLabel35"> Edit Apartment</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
-                {!! Form::model($users,['url'=>'','method'=>'post', 'id'=>'editform']) !!}
-
-                @csrf
-                <input type="hidden" name="_method" value="PATCH">
-                <div class="modal-body">
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Apartment</label>
-                        {!!Form::select('apartment_id', $apartments, null, ['id'=>'apartment_id', 'class' => 'form-control', 'required'=>'true'])!!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Name</label>
-                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="description">Username</label>
-                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="poster">Password</label>
-                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password']) !!}
-                    </fieldset>
-                </div>
-                <div class="modal-footer">
-                    <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
-                    <input type="submit" class="btn btn-outline-primary btn-lg" value="Update">
-                </div>
-                {!! Form::close() !!}
+                <form method="post" action="" id="editform">
+                    @csrf
+                    <input type="hidden" name="_method" value="PATCH">
+                    <div class="modal-body">
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" required="true" id="name" name="name"
+                                   placeholder="Enter Name">
+                        </fieldset>
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="secret">Secret</label>
+                            <input type="text" class="form-control" required="true" id="secret" name="secret"
+                                   placeholder="Enter Secret">
+                        </fieldset>
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="ipaddress">IP Address</label>
+                            <input type="text" class="form-control" required="true" id="ipaddress" name="ipaddress"
+                                   placeholder="Enter IP Address">
+                        </fieldset>
+                        <fieldset class="form-group floating-label-form-group">
+                            <label for="description">description</label>
+                            <input type="text" class="form-control" required="true" id="description" name="description"
+                                   placeholder="Enter Description">
+                        </fieldset>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
+                        <input type="submit" class="btn btn-outline-primary btn-lg" value="Update">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -142,6 +149,7 @@
     <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/inputmask/jquery.inputmask.bundle.js')}}"></script>
 
 
     <!-- END PAGE LEVEL JS-->
@@ -181,7 +189,7 @@
                     if (isConfirm) {
                         $.ajax(
                             {
-                                url: "users/" + id,
+                                url: "nas/" + id,
                                 type: 'POST',
                                 data: {
                                     "id": id,
@@ -207,29 +215,34 @@
         $(document).on('click', '.edit', function () {
 
             var id = $(this).data("id");
-            var apartment_id = $(this).data("apartment-id");
             var name = $(this).data("name");
-            var username = $(this).data("username");
+            var secret = $(this).data("secret");
+            var ipaddress = $(this).data("ipaddress");
+            var description = $(this).data("description");
 
-
-            $('#editform #apartment_id').val(apartment_id);
             $('#editform #name').val(name);
-            $('#editform #username').val(username);
-            $('#editform').attr('action', 'users/' + id);
+            $('#editform #secret').val(secret);
+            $('#editform #ipaddress').val(ipaddress);
+            $('#editform #description').val(description);
+            $('#editform').attr('action', 'nas/' + id);
             $('#editmodel').modal('show');
         });
 
         $(document).ready(function (e) {
 
+            $("#ipaddress").inputmask("ip");
+            $("#editform #ipaddress").inputmask("ip");
+
             mytable = $('.dynamic-table').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "{{ url('users/getDataTable') }}",
+                "ajax": "{{ url('nas/getDataTable') }}",
 
                 columns: [
                     {data: "name"},
-                    {data: "username"},
-                    {data: "apartment.name"},
+                    {data: "secret"},
+                    {data: "ipaddress"},
+                    {data: "description"},
                     {data: "edit"},
                     {data: "delete"}
                 ]

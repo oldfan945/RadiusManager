@@ -18,7 +18,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Mac Address</h4>
+                        <h4 class="card-title">Devices Registered to {{ Auth::user()->username }}</h4>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <button type="button" class="btn btn-outline-warning block btn-lg" data-toggle="modal"
@@ -65,7 +65,10 @@
                             <input type="text" class="form-control" id="macaddress" name="macaddress"
                                    placeholder="Enter Mac Address">
                         </fieldset>
+
+                        <h5>Where do I find my device's MAC address?<a class="btn btn-link" target="_blank" href="{{ env('MAC_URL','https://www.wikihow.com/Find-the-MAC-Address-of-Your-Computer') }}">Click here !</a></h5>
                     </div>
+
                     <div class="modal-footer">
                         <input type="reset" class="btn btn-outline-secondary btn-lg" data-dismiss="modal" value="Close">
                         <input type="submit" class="btn btn-outline-primary btn-lg" value="Add">
@@ -79,12 +82,12 @@
 @section('js_script')
 
     <!-- BEGIN PAGE LEVEL JS-->
-    <script src="dist/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="dist/app-assets/js/scripts/ui/breadcrumbs-with-stats.js"></script>
-    <script src="dist/app-assets/js/scripts/modal/components-modal.js" type="text/javascript"></script>
-    <script src="dist/app-assets/vendors/js/tables/datatable/datatables.min.js" type="text/javascript"></script>
-    <script src="dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js" type="text/javascript"></script>
-    <script src="dist/app-assets/vendors/js/extensions/sweetalert.min.js" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/ui/breadcrumbs-with-stats.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/inputmask/jquery.inputmask.bundle.js')}}"></script>
 
     <!-- END PAGE LEVEL JS-->

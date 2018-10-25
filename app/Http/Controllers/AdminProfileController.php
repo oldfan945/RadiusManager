@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\MacAddress;
-use Auth;
 use Illuminate\Http\Request;
-use DataTables;
+use Auth;
+use App\Admin;
 
-class MacAddressController extends Controller
+class AdminProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,8 @@ class MacAddressController extends Controller
      */
     public function index()
     {
-        return view('Client.MacAddress.view');
+        $user = Auth::User();
+        return view('Admin.Profile.view',compact('user'));
     }
 
     /**
@@ -37,11 +37,7 @@ class MacAddressController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'macaddress' => 'required|string|unique:mac_addresses|regex:/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/',
-        ]);
 
-        Auth::user()->macAddresses()->create($request->all());
 
         return response('success');
 
@@ -79,12 +75,13 @@ class MacAddressController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'macaddress' => 'required|string|unique:mac_addresses|regex:/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:190',
+            'password' => 'required|string|min:6',
         ]);
 
-        $macAddress = Auth::user()->macAddresses()->findOrFail($id);
-        $macAddress->update($request->all());
-        return response('success');
+        Admin::findOrFail($id)->update($request->all());
+        return redirect()->action('AdminProfileController@index');
     }
 
     /**
@@ -95,19 +92,6 @@ class MacAddressController extends Controller
      */
     public function destroy($id)
     {
-        MacAddress::destroy($id);
-        return response('Success');
-    }
 
-    public function getDataTable()
-    {
-        $macAddresses = MacAddress::all();
-
-        return DataTables::of($macAddresses)
-            ->addColumn('delete',function ($macAddress){
-                return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="'.$macAddress->id.'" data-token="'.csrf_token().'" >Delete</button>';
-            })
-            ->rawColumns(['delete'])
-            ->make(true);
     }
 }
