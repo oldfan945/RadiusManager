@@ -43,6 +43,7 @@ Route::group(['middleware'=>'auth:admin'], function() {
     Route::resource('apartments', 'ApartmentController');
 
     /* For Users */
+    Route::delete('users/{user_id}','UserController@macDestroy')->named('user.reset');
     Route::get('users/getDataTable','UserController@getDataTable');
     Route::resource('users', 'UserController');
 

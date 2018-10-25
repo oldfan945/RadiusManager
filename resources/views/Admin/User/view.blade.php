@@ -37,6 +37,7 @@
                                     <th>Name</th>
                                     <th>Username</th>
                                     <th>Appartment</th>
+                                    <th width="50px;">Reset</th>
                                     <th width="50px;">Edit</th>
                                     <th width="50px;">Delete</th>
                                 </tr>
@@ -203,6 +204,59 @@
                 });
         });
 
+        /* DELETE Record using AJAX Requres */
+        $(document).on('click', '.reset', function () {
+
+            var user_id = $(this).data("user-id");
+            var token = $(this).data("token");
+
+            swal({
+                title: "Are you sure?",
+                text: "It will Delete Perminatly !",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "No, cancel it!",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: false,
+                    },
+                    confirm: {
+                        text: "Yes, delete it!",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: false
+                    }
+                }
+            })
+                .then((isConfirm) => {
+                    if (isConfirm) {
+                        $.ajax(
+                            {
+                                url: "users/" + user_id,
+                                type: 'POST',
+                                data: {
+                                    "user_id": user_id,
+                                    "_method": 'DELETE',
+                                    "_token": token
+                                },
+                                success: function (result) {
+                                    swal("Deleted!", "Your Record is deleted.", "success");
+                                    mytable.draw();
+                                },
+                                error: function (request, status, error) {
+                                    var val = request.responseText;
+                                    alert("error" + val);
+                                }
+                            });
+                    } else {
+                        swal("Cancelled", "Your record is safe", "error");
+                    }
+                });
+        });
+
         /* RETRIVE DATA For Editing Purpose */
         $(document).on('click', '.edit', function () {
 
@@ -230,6 +284,7 @@
                     {data: "name"},
                     {data: "username"},
                     {data: "apartment.name"},
+                    {data: "reset"},
                     {data: "edit"},
                     {data: "delete"}
                 ]

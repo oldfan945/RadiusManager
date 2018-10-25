@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\MacAddress;
 use App\User;
 use App\Apartment;
 use DataTables;
@@ -145,18 +146,30 @@ class UserController extends Controller
         return response('Success');
     }
 
+    public function macDestroy(Request $request)
+    {
+        MacAddress::where('user_id','=',$request->user_id)
+            ->where('is_permanent','=',0)
+            ->delete();
+
+        return response('Success');
+    }
+
     public function getDataTable()
     {
         $users = User::with('apartment');
 
         return DataTables::of($users)
+            ->addColumn('reset', function ($user) {
+                return '<button type="button" class="reset btn btn-sm btn-success" data-user-id="' . $user->id . '" data-token="' . csrf_token() . '">Reset</button>';
+            })
             ->addColumn('edit', function ($user) {
                 return '<button type="button" class="edit btn btn-sm btn-primary" data-apartment-id="' . $user->apartment_id . '" data-name="' . $user->name . '" data-username="' . $user->username . '" data-id="' . $user->id . '">Edit</button>';
             })
             ->addColumn('delete', function ($user) {
                 return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="' . $user->id . '" data-token="' . csrf_token() . '" >Delete</button>';
             })
-            ->rawColumns(['edit', 'delete'])
+            ->rawColumns(['reset', 'edit', 'delete'])
             ->make(true);
     }
 }
