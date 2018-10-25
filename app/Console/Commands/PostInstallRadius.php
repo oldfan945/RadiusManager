@@ -38,6 +38,7 @@ class PostInstallRadius extends Command
     public function handle()
     {
         \File::copy(resource_path() . '/radius/default', '/etc/freeradius/sites-available/default');
+        \File::copy(resource_path() . '/radius/dynamic-clients', '/etc/freeradius/sites-available/dynamic-clients');
         \File::copy(resource_path() . '/radius/sql', '/etc/freeradius/mods-available/sql');
         \File::copy(resource_path() . '/radius/queries.conf', '/etc/freeradius/mods-config/sql/main/mysql/queries.conf');
     }
