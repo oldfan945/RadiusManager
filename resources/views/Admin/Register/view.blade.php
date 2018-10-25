@@ -1,6 +1,6 @@
 @extends('layouts.template')
 
-@section('title',"View Users")
+@section('title',"View Administrators")
 
 @section('head')
     <!-- BEGIN Page Level CSS-->
@@ -19,7 +19,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Users</h4>
+                        <h4 class="card-title">Administrators</h4>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <button type="button" class="btn btn-outline-warning block btn-lg" data-toggle="modal"
@@ -35,9 +35,7 @@
                                 <thead>
                                 <tr>
                                     <th>Name</th>
-                                    <th>Username</th>
-                                    <th>Apartment</th>
-                                    <th width="50px;">Reset</th>
+                                    <th>Email</th>
                                     <th width="50px;">Edit</th>
                                     <th width="50px;">Delete</th>
                                 </tr>
@@ -62,20 +60,16 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                {!! Form::open(['url'=>'users','method'=>'post', 'id'=>'addform', 'class'=>'form form-horizontal']) !!}
+                {!! Form::open(['url'=>'administrators','method'=>'post', 'id'=>'addform', 'class'=>'form form-horizontal']) !!}
                 @csrf
                 <div class="modal-body">
                     <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Apartment</label>
-                        {!!Form::select('apartment_id', $apartments, null, ['id'=>'apartment_id', 'class' => 'form-control', 'required'=>'true'])!!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Name</label>
-                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
                         <label for="description">Username</label>
-                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
+                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="email">Email</label>
+                        {!! Form::email('email',null,['id'=>'email', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter E-mail']) !!}
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="poster">Password</label>
@@ -102,22 +96,18 @@
                     </button>
                 </div>
 
-                {!! Form::model($users,['url'=>'','method'=>'post', 'id'=>'editform']) !!}
+                {!! Form::model($administrators,['url'=>'','method'=>'post', 'id'=>'editform']) !!}
 
                 @csrf
                 <input type="hidden" name="_method" value="PATCH">
                 <div class="modal-body">
                     <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Apartment</label>
-                        {!!Form::select('apartment_id', $apartments, null, ['id'=>'apartment_id', 'class' => 'form-control', 'required'=>'true'])!!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
-                        <label for="title">Name</label>
-                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
-                    </fieldset>
-                    <fieldset class="form-group floating-label-form-group">
                         <label for="description">Username</label>
-                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
+                        {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
+                        <label for="email">Email</label>
+                        {!! Form::email('email',null,['id'=>'email', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter E-mail']) !!}
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="poster">Password</label>
@@ -159,7 +149,7 @@
 
             swal({
                 title: "Are you sure?",
-                text: "It will Delete this user!",
+                text: "It will Delete Perminatly !",
                 icon: "warning",
                 buttons: {
                     cancel: {
@@ -182,7 +172,7 @@
                     if (isConfirm) {
                         $.ajax(
                             {
-                                url: "users/" + id,
+                                url: "administrators/" + id,
                                 type: 'POST',
                                 data: {
                                     "id": id,
@@ -207,12 +197,12 @@
         /* DELETE Record using AJAX Requres */
         $(document).on('click', '.reset', function () {
 
-            var user_id = $(this).data("user-id");
+            var id = $(this).data("id");
             var token = $(this).data("token");
 
             swal({
                 title: "Are you sure?",
-                text: "It will Delete all Non-Permanent Mac Addresses!",
+                text: "It will Delete Perminatly !",
                 icon: "warning",
                 buttons: {
                     cancel: {
@@ -235,7 +225,7 @@
                     if (isConfirm) {
                         $.ajax(
                             {
-                                url: "users/" + user_id,
+                                url: "administrators/" + id,
                                 type: 'POST',
                                 data: {
                                     "user_id": user_id,
@@ -261,15 +251,12 @@
         $(document).on('click', '.edit', function () {
 
             var id = $(this).data("id");
-            var apartment_id = $(this).data("apartment-id");
             var name = $(this).data("name");
-            var username = $(this).data("username");
+            var email = $(this).data("email");
 
-
-            $('#editform #apartment_id').val(apartment_id);
             $('#editform #name').val(name);
-            $('#editform #username').val(username);
-            $('#editform').attr('action', 'users/' + id);
+            $('#editform #email').val(email);
+            $('#editform').attr('action', 'administrators/' + id);
             $('#editmodel').modal('show');
         });
 
@@ -278,13 +265,11 @@
             mytable = $('.dynamic-table').DataTable({
                 "processing": true,
                 "serverSide": true,
-                "ajax": "{{ url('users/getDataTable') }}",
+                "ajax": "{{ url('administrators/getDataTable') }}",
 
                 columns: [
                     {data: "name"},
-                    {data: "username"},
-                    {data: "apartment.name"},
-                    {data: "reset"},
+                    {data: "email"},
                     {data: "edit"},
                     {data: "delete"}
                 ]

@@ -20,8 +20,11 @@
                     <div class="card-header">
                         <h4 class="card-title">Mac Address</h4>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-                        <div class="heading-elements">
-                            <button type="button" class="btn btn-outline-warning block btn-lg" data-toggle="modal"
+                        <div class="heading-elements" style="width: 200px;">
+                            <button type="button" data-token="{{ csrf_token() }}" class="reset btn btn-danger block btn-lg pull-left" style="width: 90px">
+                                Reset
+                            </button>
+                            <button type="button" class="btn btn-outline-warning block btn-lg pull-right" style="width: 90px" data-toggle="modal"
                                     data-target="#addmodel">
                                 Add
                             </button>
@@ -72,7 +75,7 @@
                                    placeholder="Enter Mac Address">
                         </fieldset>
                         <fieldset class="form-group floating-label-form-group">
-                            <label for="perminent">Perminent</label>
+                            <label for="perminent">Permanent</label>
                             {!!Form::checkbox('is_permanent', true, null, ['id'=>'is_permanent'])!!}
                         </fieldset>
                     </div>
@@ -104,14 +107,13 @@
         var mytable;
 
         /* DELETE Record using AJAX Requres */
-        $(document).on('click', '.delete', function () {
+        $(document).on('click', '.reset', function () {
 
-            var id = $(this).data("delete-id");
             var token = $(this).data("token");
 
             swal({
                 title: "Are you sure?",
-                text: "It will Delete Perminatly !",
+                text: "It will Delete all Non-Permanent Mac Addresses!",
                 icon: "warning",
                 buttons: {
                     cancel: {
@@ -134,11 +136,9 @@
                     if (isConfirm) {
                         $.ajax(
                             {
-                                url: "adminmacaddress/" + id,
+                                url: "adminmacaddress/reset",
                                 type: 'POST',
                                 data: {
-                                    "id": id,
-                                    "_method": 'DELETE',
                                     "_token": token
                                 },
                                 success: function (result) {
@@ -158,8 +158,61 @@
 
          $(document).ready(function (e) {
 
+             /* DELETE Record using AJAX Requres */
+             $(document).on('click', '.delete', function () {
 
-            $("#macaddress").inputmask("##-##-##-##-##-##");
+                 var id = $(this).data("delete-id");
+                 var token = $(this).data("token");
+
+                 swal({
+                     title: "Are you sure?",
+                     text: "It will Delete this Mac Address!",
+                     icon: "warning",
+                     buttons: {
+                         cancel: {
+                             text: "No, cancel it!",
+                             value: null,
+                             visible: true,
+                             className: "",
+                             closeModal: false,
+                         },
+                         confirm: {
+                             text: "Yes, delete it!",
+                             value: true,
+                             visible: true,
+                             className: "",
+                             closeModal: false
+                         }
+                     }
+                 })
+                     .then((isConfirm) => {
+                         if (isConfirm) {
+                             $.ajax(
+                                 {
+                                     url: "users/" + id,
+                                     type: 'POST',
+                                     data: {
+                                         "id": id,
+                                         "_method": 'DELETE',
+                                         "_token": token
+                                     },
+                                     success: function (result) {
+                                         swal("Deleted!", "Your Record is deleted.", "success");
+                                         mytable.draw();
+                                     },
+                                     error: function (request, status, error) {
+                                         var val = request.responseText;
+                                         alert("error" + val);
+                                     }
+                                 });
+                         } else {
+                             swal("Cancelled", "Your record is safe", "error");
+                         }
+                     });
+             });
+
+
+             $("#macaddress").inputmask("##-##-##-##-##-##");
 
             mytable = $('.dynamic-table').DataTable({
                 "processing": true,

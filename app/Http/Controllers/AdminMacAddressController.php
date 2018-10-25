@@ -92,6 +92,14 @@ class AdminMacAddressController extends Controller
         MacAddress::destroy($id);
     }
 
+    public function destroyAll()
+    {
+        MacAddress::where('is_permanent','=',0)
+            ->delete();
+
+        return response('Success');
+    }
+
     public function getDataTable()
     {
         $macAddresses = MacAddress::with('user');

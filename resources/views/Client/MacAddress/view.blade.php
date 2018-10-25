@@ -19,11 +19,12 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Devices Registered to {{ Auth::user()->username }}</h4>
+                        <h5>Where do I find my device's MAC address?<a class="btn btn-link" target="_blank" href="{{ env('MAC_URL','https://www.wikihow.com/Find-the-MAC-Address-of-Your-Computer') }}">Click here !</a></h5>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <button type="button" class="btn btn-outline-warning block btn-lg" data-toggle="modal"
                                     data-target="#addmodel">
-                                Add
+                                Register Device
                             </button>
                         </div>
                     </div>
@@ -52,7 +53,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel35"> Add MacAddress</h3>
+                    <h3 class="modal-title" id="myModalLabel35"> Register Device</h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -65,8 +66,6 @@
                             <input type="text" class="form-control" id="macaddress" name="macaddress"
                                    placeholder="Enter Mac Address">
                         </fieldset>
-
-                        <h5>Where do I find my device's MAC address?<a class="btn btn-link" target="_blank" href="{{ env('MAC_URL','https://www.wikihow.com/Find-the-MAC-Address-of-Your-Computer') }}">Click here !</a></h5>
                     </div>
 
                     <div class="modal-footer">
