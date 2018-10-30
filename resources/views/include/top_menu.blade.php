@@ -17,7 +17,7 @@
                 </li>
             <li class=" nav-item"><a href="/users"><i class="la la-user"></i><span class="menu-title">Users</span></a></li>
             <li class=" nav-item"><a href="/adminmacaddress"><i class="la la-mobile"></i><span class="menu-title">Mac Address</span></a></li>
-            <li class=" nav-item"><a href="/admins"><i class="la la-user"></i><span class="menu-title">Administrators</span></a></li>
+            <li class=" nav-item"><a href="/administrators"><i class="la la-user"></i><span class="menu-title">Administrators</span></a></li>
             @endauth
             @auth('web')
             <li class=" nav-item"><a href="/macaddress"><i class="la la-mobile"></i><span class="menu-title">Mac Address</span></a></li>

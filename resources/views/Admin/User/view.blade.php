@@ -159,7 +159,7 @@
 
             swal({
                 title: "Are you sure?",
-                text: "It will Delete Perminatly !",
+                text: "It will Delete this user!",
                 icon: "warning",
                 buttons: {
                     cancel: {
@@ -212,7 +212,7 @@
 
             swal({
                 title: "Are you sure?",
-                text: "It will Delete Perminatly !",
+                text: "It will Delete all Non-Permanent Mac Addresses!",
                 icon: "warning",
                 buttons: {
                     cancel: {
