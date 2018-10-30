@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\MacAddress;
-use Auth;
 use Illuminate\Http\Request;
+use App\Admin;
 use DataTables;
 
-class MacAddressController extends Controller
+class AdministratorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,8 @@ class MacAddressController extends Controller
      */
     public function index()
     {
-        return view('Client.MacAddress.view');
+        $administrators = Admin::all();
+        return view('Admin.Register.view',compact('administrators'));
     }
 
     /**
@@ -38,13 +38,12 @@ class MacAddressController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'macaddress' => 'required|string|unique:mac_addresses|regex:/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:admins',
         ]);
 
-        Auth::user()->macAddresses()->create($request->all());
-
+        Admin::create($request->all());
         return response('success');
-
     }
 
     /**
@@ -66,7 +65,7 @@ class MacAddressController extends Controller
      */
     public function edit($id)
     {
-
+        //
     }
 
     /**
@@ -79,12 +78,12 @@ class MacAddressController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'macaddress' => 'required|string|unique:mac_addresses|regex:/^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$/',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email',
         ]);
 
-        $macAddress = Auth::user()->macAddresses()->findOrFail($id);
-        $macAddress->update($request->all());
-        return response('success');
+        $admin = Admin::findOrFail($id);
+        $admin->update($request->all());
     }
 
     /**
@@ -95,19 +94,22 @@ class MacAddressController extends Controller
      */
     public function destroy($id)
     {
-        MacAddress::destroy($id);
+        User::destroy($id);
         return response('Success');
     }
 
     public function getDataTable()
     {
-        $macAddresses = Auth::user()->macAddresses()->where('is_permanent','=',false);
+        $admins = Admin::all();
 
-        return DataTables::of($macAddresses)
-            ->addColumn('delete',function ($macAddress){
-                return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="'.$macAddress->id.'" data-token="'.csrf_token().'" >Delete</button>';
+        return DataTables::of($admins)
+            ->addColumn('edit', function ($admins) {
+                return '<button type="button" class="edit btn btn-sm btn-primary" data-name="' . $admins->name . '" data-email="' . $admins->email . '"  data-id="' . $admins->id . '">Edit</button>';
             })
-            ->rawColumns(['delete'])
+            ->addColumn('delete', function ($admins) {
+                return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="' . $admins->id . '" data-token="' . csrf_token() . '" >Delete</button>';
+            })
+            ->rawColumns(['edit', 'delete'])
             ->make(true);
     }
 }

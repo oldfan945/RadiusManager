@@ -9,6 +9,7 @@
                         <span class="menu-title" data-i18n="nav.dash.main">Dashboard</span>
                     </a>
                 </li>
+                <li class=" nav-item"><a href="/nas"><i class="la la-inbox"></i><span class="menu-title">NAS</span></a></li>
                 <li class=" nav-item">
                     <a href="/apartments">
                         <i class="la la-bank"></i><span class="menu-title">Apartments</span>
@@ -16,7 +17,7 @@
                 </li>
             <li class=" nav-item"><a href="/users"><i class="la la-user"></i><span class="menu-title">Users</span></a></li>
             <li class=" nav-item"><a href="/adminmacaddress"><i class="la la-mobile"></i><span class="menu-title">Mac Address</span></a></li>
-            <li class=" nav-item"><a href="/nas"><i class="la la-inbox"></i><span class="menu-title">NAS</span></a></li>
+            <li class=" nav-item"><a href="/admins"><i class="la la-user"></i><span class="menu-title">Administrators</span></a></li>
             @endauth
             @auth('web')
             <li class=" nav-item"><a href="/macaddress"><i class="la la-mobile"></i><span class="menu-title">Mac Address</span></a></li>
