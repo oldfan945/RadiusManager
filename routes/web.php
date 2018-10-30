@@ -48,6 +48,7 @@ Route::group(['middleware'=>'auth:admin'], function() {
     Route::resource('users', 'UserController');
 
     /* For Mac Addresses */
+    Route::post('adminmacaddress/reset','AdminMacAddressController@destroyAll');
     Route::get('adminmacaddress/getDataTable','AdminMacAddressController@getDataTable');
     Route::resource('adminmacaddress', 'AdminMacAddressController');
 

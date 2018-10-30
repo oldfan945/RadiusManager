@@ -36,7 +36,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Username</th>
-                                    <th>Appartment</th>
+                                    <th>Apartment</th>
                                     <th width="50px;">Reset</th>
                                     <th width="50px;">Edit</th>
                                     <th width="50px;">Delete</th>
