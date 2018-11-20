@@ -102,7 +102,7 @@ php artisan migrate
 
 php artisan db:seed
 
-php radius:install
+php artisan radius:install
 
 # Set NGINX to point to Application
 
