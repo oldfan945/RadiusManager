@@ -98,6 +98,10 @@ cp .env.example .env
 
 php artisan key:generate
 
+php artisan migrate
+
+php artisan db:seed
+
 php radius:install
 
 # Set NGINX to point to Application
