@@ -36,6 +36,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>Password</th>
                                     <th>Apartment</th>
                                     <th width="50px;">Reset</th>
                                     <th width="50px;">Edit</th>
@@ -283,6 +284,7 @@
                 columns: [
                     {data: "name"},
                     {data: "username"},
+                    {data: "password"},
                     {data: "apartment.name"},
                     {data: "reset"},
                     {data: "edit"},
