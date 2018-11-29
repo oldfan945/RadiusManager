@@ -19,7 +19,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">Devices Registered to {{ Auth::user()->username }}</h4>
-                        <h5>Where do I find my device's MAC address?<a class="btn btn-link" target="_blank" href="https://{{ env('MAC_URL','www.wikihow.com/Find-the-MAC-Address-of-Your-Computer') }}">Click here !</a></h5>
+                        <h5>Where do I find my device's MAC address?<a class="btn btn-link" target="_blank" href="http://{{ env('MAC_URL','www.wikihow.com/Find-the-MAC-Address-of-Your-Computer') }}">Click here !</a></h5>
                         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <button type="button" class="btn btn-outline-warning block btn-lg" data-toggle="modal"
