@@ -81,6 +81,7 @@ class AdministratorController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email',
+            'password' => 'required|string|min:6',
         ]);
 
         $admin = Admin::findOrFail($id);
@@ -95,7 +96,7 @@ class AdministratorController extends Controller
      */
     public function destroy($id)
     {
-        User::destroy($id);
+        Admin::destroy($id);
         return response('Success');
     }
 
