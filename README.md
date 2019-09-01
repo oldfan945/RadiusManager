@@ -117,6 +117,8 @@ service nginx restart
 
 cd /var/www/html/RadiusManager
 
+git pull
+
 composer update
 
 php artisan migrate
