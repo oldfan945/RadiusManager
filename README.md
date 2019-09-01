@@ -111,3 +111,14 @@ php artisan nginx:install
 # Restart NGINX to Apply Config
 
 service nginx restart
+
+
+# (1st Sept 2019) Upgrade to latest version (Only if you already have the previous version installed.)
+
+cd /var/www/html/RadiusManager
+
+composer update
+
+php artisan migrate
+
+php artisan radius:install
