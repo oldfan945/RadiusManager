@@ -300,9 +300,9 @@ authorize {
 	preprocess
 	
 	##Edit by Mitul
-	if("%{sql:SELECT COUNT(*) FROM mac_addresses WHERE macaddress = '%{User-Name}'}" >= 1){
+	if("%{sql:SELECT COUNT(*) FROM mac_addresses ma JOIN users u ON u.id = ma.user_id WHERE u.is_enabled = 1 AND macaddress = '%{User-Name}'}" >= 1){
 		update request{
-			User-Name := "%{sql:SELECT username FROM users u JOIN mac_addresses ma ON u.id = ma.user_id WHERE macaddress = '%{User-Name}'}"
+			User-Name := "%{sql:SELECT username FROM users u JOIN mac_addresses ma ON u.id = ma.user_id WHERE u.is_enabled = 1 AND macaddress = '%{User-Name}'}"
 			SQL-User-Name := '%{User-Name}'
 			User-Password := "%{sql:SELECT password FROM users WHERE username = '%{User-Name}'}"
 		}

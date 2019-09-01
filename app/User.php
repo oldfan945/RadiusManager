@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'apartment_id', 'name', 'username', 'password',
+        'apartment_id', 'name', 'username', 'password', 'is_enabled', 'email'
     ];
 
     /**
@@ -27,6 +27,20 @@ class User extends Authenticatable
     protected $hidden = [
         'remember_token',
     ];
+
+    protected $dates = [
+        'created_at', 'updated_at'
+    ];
+
+    public function setIsEnabledAttributes($value)
+    {
+        $this->attributes['is_enabled'] = (int)$value;
+    }
+
+    public function getIsEnabledAttributes($value)
+    {
+        return (int)$value;
+    }
 
     public function macAddresses()
     {

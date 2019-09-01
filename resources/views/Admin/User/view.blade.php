@@ -4,7 +4,8 @@
 
 @section('head')
     <!-- BEGIN Page Level CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('dist/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/extensions/sweetalert.css')}}">
 
 @stop
@@ -36,8 +37,11 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Username</th>
+                                    <th>Email</th>
                                     <th>Password</th>
                                     <th>Apartment</th>
+                                    <th width="50px;">Status</th>
+                                    <th width="50px;">Action</th>
                                     <th width="50px;">Reset</th>
                                     <th width="50px;">Edit</th>
                                     <th width="50px;">Delete</th>
@@ -75,6 +79,10 @@
                         {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
+                        <label for="title">Email</label>
+                        {!! Form::email('email',null,['id'=>'email', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Email']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
                         <label for="description">Username</label>
                         {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
                     </fieldset>
@@ -104,8 +112,6 @@
                 </div>
 
                 {!! Form::model($users,['url'=>'','method'=>'post', 'id'=>'editform']) !!}
-
-                @csrf
                 <input type="hidden" name="_method" value="PATCH">
                 <div class="modal-body">
                     <fieldset class="form-group floating-label-form-group">
@@ -117,8 +123,12 @@
                         {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Name']) !!}
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
+                        <label for="title">Email</label>
+                        {!! Form::email('email',null,['id'=>'email', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Email']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
                         <label for="description">Username</label>
-                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
+                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username','readonly']) !!}
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="poster">Password</label>
@@ -138,11 +148,14 @@
 @section('js_script')
 
     <!-- BEGIN PAGE LEVEL JS-->
-    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}"
+            type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/ui/breadcrumbs-with-stats.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
-    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}"
+            type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}"
+            type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
 
 
@@ -258,6 +271,68 @@
                 });
         });
 
+        /* Action Activate/De-Activate Record using AJAX Requres */
+        $(document).on('click', '.action', function () {
+
+            var user_id = $(this).data("id");
+            var enabled = $(this).data("enabled");
+            var token = $(this).data("token");
+            var text = '';
+            if (enabled) {
+                text = 'It will De-Activate this user!';
+                enabled = 0;
+            } else {
+                text = 'It will Activate this user!';
+                enabled = 1;
+            }
+
+            swal({
+                title: "Are you sure?",
+                text: text,
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "No, cancel it!",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: false,
+                    },
+                    confirm: {
+                        text: "Yes!",
+                        value: true,
+                        visible: true,
+                        className: "",
+                        closeModal: false
+                    }
+                }
+            })
+                .then((isConfirm) => {
+                    if (isConfirm) {
+                        $.ajax(
+                            {
+                                url: "users/" + user_id,
+                                type: 'POST',
+                                data: {
+                                    "is_enabled": enabled,
+                                    "_method": 'PATCH',
+                                    "_token": token
+                                },
+                                success: function (result) {
+                                    swal("Updated!", "Your Record is updated.", "success");
+                                    mytable.draw();
+                                },
+                                error: function (request, status, error) {
+                                    var val = request.responseText;
+                                    alert("error" + val);
+                                }
+                            });
+                    } else {
+                        swal("Cancelled", "", "error");
+                    }
+                });
+        });
+
         /* RETRIVE DATA For Editing Purpose */
         $(document).on('click', '.edit', function () {
 
@@ -265,10 +340,12 @@
             var apartment_id = $(this).data("apartment-id");
             var name = $(this).data("name");
             var username = $(this).data("username");
+            var email = $(this).data("email");
 
 
             $('#editform #apartment_id').val(apartment_id);
             $('#editform #name').val(name);
+            $('#editform #email').val(email);
             $('#editform #username').val(username);
             $('#editform').attr('action', 'users/' + id);
             $('#editmodel').modal('show');
@@ -284,11 +361,14 @@
                 columns: [
                     {data: "name"},
                     {data: "username"},
+                    {data: "email"},
                     {data: "password"},
                     {data: "apartment.name"},
-                    {data: "reset"},
-                    {data: "edit"},
-                    {data: "delete"}
+                    {data: "status", searchable: false, sortable: false},
+                    {data: "action", searchable: false, sortable: false},
+                    {data: "reset", searchable: false, sortable: false},
+                    {data: "edit", searchable: false, sortable: false},
+                    {data: "delete", searchable: false, sortable: false}
                 ]
             });
 

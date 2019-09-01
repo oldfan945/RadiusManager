@@ -18,7 +18,7 @@ class AdminMacAddressController extends Controller
     public function index()
     {
         $users = User::pluck('name', 'id');
-        return view('Admin.MacAddress.view',compact('users'));
+        return view('Admin.MacAddress.view', compact('users'));
     }
 
     /**
@@ -34,7 +34,7 @@ class AdminMacAddressController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -50,7 +50,7 @@ class AdminMacAddressController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -61,7 +61,7 @@ class AdminMacAddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -72,8 +72,8 @@ class AdminMacAddressController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -84,17 +84,17 @@ class AdminMacAddressController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        MacAddress::destroy($id);
+        return MacAddress::destroy($id);
     }
 
     public function destroyAll()
     {
-        MacAddress::where('is_permanent','=',0)
+        MacAddress::where('is_permanent', '=', 0)
             ->delete();
 
         return response('Success');
@@ -102,20 +102,18 @@ class AdminMacAddressController extends Controller
 
     public function getDataTable()
     {
-        $macAddresses = MacAddress::with('user');
-
+        $macAddresses = MacAddress::with('user')->select('mac_addresses.*');
         return DataTables::of($macAddresses)
-            ->addColumn('is_permanent',function ($macAddress){
-                if($macAddress->is_permanent == 1)
+            ->addColumn('is_permanent', function ($macAddress) {
+                if ($macAddress->is_permanent == 1)
                     return '<button type="button" class="btn btn-sm btn-success">Yes</button>';
                 else
                     return '<button type="button" class="btn btn-sm btn-danger">No</button>';
             })
-            ->addColumn('delete',function ($macAddress){
-                return '<button type="button" class="delete btn btn-sm btn-danger" 
-                data-delete-id="'.$macAddress->id.'" data-token="'.csrf_token().'" >Delete</button>';
+            ->addColumn('delete', function ($macAddress) {
+                return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="' . $macAddress->id . '" data-token="' . csrf_token() . '" >Delete</button>';
             })
-            ->rawColumns(['is_permanent','delete'])
+            ->rawColumns(['is_permanent', 'delete'])
             ->make(true);
     }
 }

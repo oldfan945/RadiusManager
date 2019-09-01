@@ -4,7 +4,8 @@
 
 @section('head')
     <!-- BEGIN Page Level CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('dist/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/extensions/sweetalert.css')}}">
 
 @stop
@@ -36,6 +37,7 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
+                                    <th>Role</th>
                                     <th width="50px;">Edit</th>
                                     <th width="50px;">Delete</th>
                                 </tr>
@@ -64,6 +66,10 @@
                 @csrf
                 <div class="modal-body">
                     <fieldset class="form-group floating-label-form-group">
+                        <label for="description">Role</label>
+                        {!! Form::select('role',['Administrator'=>'Administrator','Manager'=>'Manager'],null,['id'=>'role', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'--Select Role--']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
                         <label for="description">Username</label>
                         {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
                     </fieldset>
@@ -73,7 +79,7 @@
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="poster">Password</label>
-                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password']) !!}
+                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control','required'=>'true', 'placeholder'=>'Enter Password']) !!}
                     </fieldset>
                 </div>
                 <div class="modal-footer">
@@ -102,6 +108,10 @@
                 <input type="hidden" name="_method" value="PATCH">
                 <div class="modal-body">
                     <fieldset class="form-group floating-label-form-group">
+                        <label for="description">Role</label>
+                        {!! Form::select('role',['Administrator'=>'Administrator','Manager'=>'Manager'],null,['id'=>'role', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'--Select Role--']) !!}
+                    </fieldset>
+                    <fieldset class="form-group floating-label-form-group">
                         <label for="description">Username</label>
                         {!! Form::text('name',null,['id'=>'name', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
                     </fieldset>
@@ -127,11 +137,14 @@
 @section('js_script')
 
     <!-- BEGIN PAGE LEVEL JS-->
-    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}"
+            type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/ui/breadcrumbs-with-stats.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
-    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}"
+            type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}"
+            type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
 
 
@@ -253,8 +266,10 @@
             var id = $(this).data("id");
             var name = $(this).data("name");
             var email = $(this).data("email");
+            var role = $(this).data("role");
 
             $('#editform #name').val(name);
+            $('#editform #role').val(name).trigger('change');
             $('#editform #email').val(email);
             $('#editform').attr('action', 'administrators/' + id);
             $('#editmodel').modal('show');
@@ -270,6 +285,7 @@
                 columns: [
                     {data: "name"},
                     {data: "email"},
+                    {data: "role"},
                     {data: "edit"},
                     {data: "delete"}
                 ]

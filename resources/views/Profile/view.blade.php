@@ -1,10 +1,11 @@
 @extends('layouts.template')
 
-@section('title',"Admin Profile")
+@section('title',"Profile")
 
 @section('head')
     <!-- BEGIN Page Level CSS-->
-    <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('dist/app-assets/vendors/css/tables/datatable/datatables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('dist/app-assets/vendors/css/extensions/sweetalert.css')}}">
 
 @stop
@@ -20,7 +21,7 @@
                 <div class="card">
                     <div class="card-content collpase show">
                         <div class="card-body card-dashboard">
-                            {!! Form::model($user,['url'=>'admin/profile/'.$user->id,'method'=>'patch', 'class'=>'form form-horizontal']) !!}
+                            {!! Form::model($user,['url'=>'profile/'.$user->id,'method'=>'patch', 'class'=>'form form-horizontal']) !!}
                             <div class="form-body">
                                 <h4 class="form-section"><i class="ft-user"></i> Profile</h4>
                                 <div class="form-group row">
@@ -30,22 +31,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-2 label-control" for="email">E-mail</label>
-                                    <div class="col-md-10">
-                                        {!! Form::text('email',null,['class'=>'form-control']) !!}
-                                    </div>
-                                </div>
-                                <div class="form-group row">
                                     <label class="col-md-2 label-control" for="password">Password</label>
                                     <div class="col-md-10">
-                                        {!! Form::password('password',['class'=>'form-control','required'=>'true']) !!}
+                                        {!! Form::text('password',null,['class'=>'form-control','required'=>'true']) !!}
                                     </div>
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="la la-check-square-o"></i> Update
-                                </button>
+                                <button type="submit" class="btn btn-primary">Update</button>
                             </div>
                             {!! Form::close() !!}
                         </div>
@@ -61,11 +54,14 @@
 @section('js_script')
 
     <!-- BEGIN PAGE LEVEL JS-->
-    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}"
+            type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/ui/breadcrumbs-with-stats.js')}}" type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/js/scripts/modal/components-modal.js')}}" type="text/javascript"></script>
-    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/vendors/js/tables/datatable/datatables.min.js')}}"
+            type="text/javascript"></script>
+    <script src="{{asset('dist/app-assets/js/scripts/forms/validation/jquery.validate.min.js')}}"
+            type="text/javascript"></script>
     <script src="{{asset('dist/app-assets/vendors/js/extensions/sweetalert.min.js')}}" type="text/javascript"></script>
     <!-- END PAGE LEVEL JS-->
 

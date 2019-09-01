@@ -7,6 +7,7 @@ use App\User;
 use App\Apartment;
 use DataTables;
 use Illuminate\Http\Request;
+use function foo\func;
 
 class UserController extends Controller
 {
@@ -35,7 +36,7 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -43,7 +44,9 @@ class UserController extends Controller
         $request->validate([
             'apartment_id' => 'required',
             'name' => 'required|string|max:255',
+            'email' => 'required|email|string|max:255',
             'username' => 'required|string|max:20|unique:users',
+            'password' => 'required|string|max:255',
         ]);
 
         $user = User::create($request->all());
@@ -68,7 +71,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\User $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
@@ -79,7 +82,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\User $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function edit(User $user)
@@ -90,17 +93,28 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\User $user
+     * @param \Illuminate\Http\Request $request
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'apartment_id' => 'required',
-            'name' => 'required|string|max:255',
-            'username' => 'required|string|max:20',
-        ]);
+        if ($request->has('is_enabled')) {
+            $request->validate([
+                'is_enabled' => 'required'
+            ]);
+        } else {
+            $request->validate([
+                'apartment_id' => 'required',
+                'name' => 'required|string|max:255',
+                'email' => 'required|email|string|max:255',
+                'username' => 'required|string|max:20',
+            ]);
+        }
+
+        if (empty($request->password)) {
+            $request->request->remove('password');
+        }
 
         $user = User::findOrFail($id);
         $user->update($request->all());
@@ -136,7 +150,7 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\User $user
+     * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request)
@@ -148,8 +162,8 @@ class UserController extends Controller
 
     public function macDestroy(Request $request)
     {
-        MacAddress::where('user_id','=',$request->user_id)
-            ->where('is_permanent','=',0)
+        MacAddress::where('user_id', '=', $request->user_id)
+            ->where('is_permanent', '=', 0)
             ->delete();
 
         return response('Success');
@@ -160,16 +174,28 @@ class UserController extends Controller
         $users = User::with('apartment');
 
         return DataTables::of($users)
+            ->addColumn('status', function ($user) {
+                if ($user->is_enabled) {
+                    return '<i class="la la-check-circle text-success">Active</i>';
+                }
+                return '<i class="la la-times-circle text-danger">Inactive</i>';
+            })
+            ->addColumn('action', function ($user) {
+                if ($user->is_enabled) {
+                    return '<button type="button" class="action btn btn-sm btn-danger" data-token="' . csrf_token() . '" data-id="' . $user->id . '" data-enabled="' . $user->is_enabled . '">De-Activate</button>';
+                }
+                return '<button type="button" class="action btn btn-sm btn-success" data-token="' . csrf_token() . '" data-id="' . $user->id . '" data-enabled="' . $user->is_enabled . '">Activate</button>';
+            })
             ->addColumn('reset', function ($user) {
-                return '<button type="button" class="reset btn btn-sm btn-success" data-user-id="' . $user->id . '" data-token="' . csrf_token() . '">Reset</button>';
+                return '<button type="button" class="reset btn btn-sm btn-warning" data-user-id="' . $user->id . '" data-token="' . csrf_token() . '">Reset</button>';
             })
             ->addColumn('edit', function ($user) {
-                return '<button type="button" class="edit btn btn-sm btn-primary" data-apartment-id="' . $user->apartment_id . '" data-name="' . $user->name . '" data-username="' . $user->username . '" data-id="' . $user->id . '">Edit</button>';
+                return '<button type="button" class="edit btn btn-sm btn-primary" data-email="' . $user->email . '" data-apartment-id="' . $user->apartment_id . '" data-name="' . $user->name . '" data-username="' . $user->username . '" data-id="' . $user->id . '">Edit</button>';
             })
             ->addColumn('delete', function ($user) {
                 return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="' . $user->id . '" data-token="' . csrf_token() . '" >Delete</button>';
             })
-            ->rawColumns(['reset', 'edit', 'delete'])
+            ->rawColumns(['status', 'action', 'reset', 'edit', 'delete'])
             ->make(true);
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
-use App\Admin;
-use DataTables;
+use Auth;
 
-class AdministratorController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class AdministratorController extends Controller
      */
     public function index()
     {
-        $administrators = Admin::all();
-        return view('Admin.Register.view', compact('administrators'));
+        $user = Auth::User();
+        return view('Profile.view', compact('user'));
     }
 
     /**
@@ -37,14 +37,10 @@ class AdministratorController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|unique:admins',
-            'password' => 'required|string|min:6',
-        ]);
 
-        Admin::create($request->all());
+
         return response('success');
+
     }
 
     /**
@@ -66,7 +62,7 @@ class AdministratorController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -80,12 +76,11 @@ class AdministratorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email',
             'password' => 'required|string|min:6',
         ]);
 
-        $admin = Admin::findOrFail($id);
-        $admin->update($request->all());
+        User::findOrFail($id)->update($request->all());
+        return redirect()->action('ProfileController@index');
     }
 
     /**
@@ -96,22 +91,6 @@ class AdministratorController extends Controller
      */
     public function destroy($id)
     {
-        Admin::destroy($id);
-        return response('Success');
-    }
 
-    public function getDataTable()
-    {
-        $admins = Admin::all();
-
-        return DataTables::of($admins)
-            ->addColumn('edit', function ($admin) {
-                return '<button type="button" class="edit btn btn-sm btn-primary" data-role="' . $admin->role . '" data-name="' . $admin->name . '" data-email="' . $admin->email . '"  data-id="' . $admin->id . '">Edit</button>';
-            })
-            ->addColumn('delete', function ($admin) {
-                return '<button type="button" class="delete btn btn-sm btn-danger" data-delete-id="' . $admin->id . '" data-token="' . csrf_token() . '" >Delete</button>';
-            })
-            ->rawColumns(['edit', 'delete'])
-            ->make(true);
     }
 }

@@ -48,7 +48,8 @@ class LoginController extends Controller
     {
         $user = User::where([
             'username' => $request->username,
-            'password' => $request->password
+            'password' => $request->password,
+            'is_enabled' => 1
         ])->first();
 
         if ($user) {

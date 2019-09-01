@@ -68,5 +68,7 @@ Route::group(['middleware'=>'auth'], function() {
     Route::get('macaddress/getDataTable','MacAddressController@getDataTable');
     Route::resource('macaddress', 'MacAddressController');
 
+    Route::resource('profile', 'ProfileController');
+
 
 });

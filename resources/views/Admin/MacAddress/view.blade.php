@@ -189,7 +189,7 @@
                          if (isConfirm) {
                              $.ajax(
                                  {
-                                     url: "users/" + id,
+                                     url: "adminmacaddress/" + id,
                                      type: 'POST',
                                      data: {
                                          "id": id,
