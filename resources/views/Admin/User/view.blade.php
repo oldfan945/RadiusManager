@@ -88,7 +88,7 @@
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="poster">Password</label>
-                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password']) !!}
+                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password', 'minlength' => '6']) !!}
                     </fieldset>
                 </div>
                 <div class="modal-footer">
@@ -132,7 +132,7 @@
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="poster">Password</label>
-                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password']) !!}
+                        {!! Form::text('password',null,['id'=>'password', 'class'=>'form-control', 'placeholder'=>'Enter Password', 'minlength' => '6']) !!}
                     </fieldset>
                 </div>
                 <div class="modal-footer">

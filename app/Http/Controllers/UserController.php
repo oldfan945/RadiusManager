@@ -187,7 +187,7 @@ class UserController extends Controller
                 return '<button type="button" class="action btn btn-sm btn-success" data-token="' . csrf_token() . '" data-id="' . $user->id . '" data-enabled="' . $user->is_enabled . '">Activate</button>';
             })
             ->addColumn('reset', function ($user) {
-                return '<button type="button" class="reset btn btn-sm btn-warning" data-user-id="' . $user->id . '" data-token="' . csrf_token() . '">Reset</button>';
+                return '<button type="button" class="reset btn btn-sm btn-warning" data-user-id="' . $user->id . '" data-token="' . csrf_token() . '">Reset Mac Address</button>';
             })
             ->addColumn('edit', function ($user) {
                 return '<button type="button" class="edit btn btn-sm btn-primary" data-email="' . $user->email . '" data-apartment-id="' . $user->apartment_id . '" data-name="' . $user->name . '" data-username="' . $user->username . '" data-id="' . $user->id . '">Edit</button>';
