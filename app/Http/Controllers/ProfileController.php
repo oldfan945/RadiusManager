@@ -75,7 +75,6 @@ class ProfileController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
             'password' => 'required|string|min:6',
         ]);
 

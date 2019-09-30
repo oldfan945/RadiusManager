@@ -27,13 +27,19 @@
                                 <div class="form-group row">
                                     <label class="col-md-2 label-control" for="Name">Name</label>
                                     <div class="col-md-10">
-                                        {!! Form::text('name',null,['class'=>'form-control']) !!}
+                                        {!! Form::text('name',null,['class'=>'form-control','disabled']) !!}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-md-2 label-control" for="Name">Username</label>
+                                    <div class="col-md-10">
+                                        {!! Form::text('username',null,['class'=>'form-control','disabled']) !!}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-md-2 label-control" for="password">Password</label>
                                     <div class="col-md-10">
-                                        {!! Form::text('password',null,['class'=>'form-control','required'=>'true']) !!}
+                                        {!! Form::text('password',null,['class'=>'form-control','required'=>'true','data-minlenght' => 6]) !!}
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +77,7 @@
         $(document).ready(function (e) {
 
             /* EDIT Record using AJAX Requres */
-            var editaddformValidator = $("#editform").validate({
+            var editaddformValidator = $("form").validate({
                 ignore: ":hidden",
                 errorElement: "span",
                 errorClass: "text-danger",
@@ -91,10 +97,7 @@
                         method: $(form).attr('method'),
                         data: $(form).serialize(),
                         success: function (data) {
-                            $('#editmodel').modal('hide');
                             swal("Good job!", "Your Record Updated Successfully", "success");
-                            $(form).trigger('reset');
-                            mytable.draw();
                         },
                         error: function (XMLHttpRequest, textStatus, errorThrown) {
                             var response = JSON.parse(XMLHttpRequest.responseText);
