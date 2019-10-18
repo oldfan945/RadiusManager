@@ -31,7 +31,7 @@
                     <div class="card-content collpase show">
                         <div class="card-body card-dashboard">
 
-                            <table class="table table-striped table-bordered dynamic-table">
+                            <table class="table table-responsive table-striped table-bordered dynamic-table" width="100%">
                                 <thead>
                                 <tr>
                                     <th>Mac Address</th>
