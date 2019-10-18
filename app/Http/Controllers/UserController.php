@@ -50,6 +50,9 @@ class UserController extends Controller
         ]);
 
         $user = User::create($request->all());
+        $user->default_password = $request->get('password');
+        $user->save();
+
         $user->radreplies()->create([
             'attribute' => 'Tunnel-Type',
             'value' => '13'
@@ -165,6 +168,17 @@ class UserController extends Controller
         MacAddress::where('user_id', '=', $request->user_id)
             ->where('is_permanent', '=', 0)
             ->delete();
+
+        return response('Success');
+    }
+
+    public function resetAll(Request $request)
+    {
+        $users = User::all();
+        foreach ($users as $user) {
+            $user->password = $user->default_password;
+            $user->save();
+        }
 
         return response('Success');
     }

@@ -12,13 +12,13 @@
 */
 Auth::routes();
 
-Route::get('/register', function(){
+Route::get('/register', function () {
     return redirect()->route('login');
 });
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('logout','Auth\LoginController@logout');
+Route::get('logout', 'Auth\LoginController@logout');
 
 // Admin Authentication Routes...
 Route::get('admin/login', 'Auth\AdminLoginController@showLoginForm')->name('admin.login');
@@ -32,40 +32,40 @@ Route::post('admin/password/reset', 'Auth\AdminResetPasswordController@reset');
 Route::get('admin/password/reset/{token}', 'Auth\AdminResetPasswordController@showResetForm')->name('admin.password.reset');
 
 
-Route::group(['middleware'=>'auth:admin'], function() {
+Route::group(['middleware' => 'auth:admin'], function () {
     // Admin Home routes
     Route::get('/admin', 'AdminController@index')->name('admin.dashboard');
 
     Route::resource('admin/profile', 'AdminProfileController');
 
     /* For Apartments */
-    Route::get('apartments/getDataTable','ApartmentController@getDataTable');
+    Route::get('apartments/getDataTable', 'ApartmentController@getDataTable');
     Route::resource('apartments', 'ApartmentController');
 
     /* For Users */
-    Route::delete('users/{user_id}','UserController@macDestroy')->named('user.reset');
-    Route::get('users/getDataTable','UserController@getDataTable');
+    Route::get('users/resetall', 'UserController@resetAll')->named('user.resetall');
+    Route::delete('users/{user_id}', 'UserController@macDestroy')->named('user.reset');
+    Route::get('users/getDataTable', 'UserController@getDataTable');
     Route::resource('users', 'UserController');
 
-    Route::get('administrators/getDataTable','AdministratorController@getDataTable');
+    Route::get('administrators/getDataTable', 'AdministratorController@getDataTable');
     Route::resource('administrators', 'AdministratorController');
 
     /* For Mac Addresses */
-    Route::post('adminmacaddress/reset','AdminMacAddressController@destroyAll');
-    Route::get('adminmacaddress/getDataTable','AdminMacAddressController@getDataTable');
+    Route::post('adminmacaddress/reset', 'AdminMacAddressController@destroyAll');
+    Route::get('adminmacaddress/getDataTable', 'AdminMacAddressController@getDataTable');
     Route::resource('adminmacaddress', 'AdminMacAddressController');
 
     /* For Mac Addresses */
-    Route::get('nas/getDataTable','NasController@getDataTable');
+    Route::get('nas/getDataTable', 'NasController@getDataTable');
     Route::resource('nas', 'NasController');
 });
 
 
-Route::group(['middleware'=>'auth'], function() {
+Route::group(['middleware' => 'auth'], function () {
 
 
-
-    Route::get('macaddress/getDataTable','MacAddressController@getDataTable');
+    Route::get('macaddress/getDataTable', 'MacAddressController@getDataTable');
     Route::resource('macaddress', 'MacAddressController');
 
     Route::resource('profile', 'ProfileController');

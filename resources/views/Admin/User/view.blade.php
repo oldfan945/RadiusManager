@@ -41,14 +41,38 @@
                                     <th>Email</th>
                                     <th>Password</th>
                                     <th>Apartment</th>
-                                    <th width="50px;">Status</th>
-                                    <th width="50px;">Action</th>
-                                    <th width="50px;">Reset</th>
-                                    <th width="50px;">Edit</th>
-                                    <th width="50px;">Delete</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                    <th>Reset</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
                                 </thead>
                             </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="main">
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Reset Users</h4>
+                        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+
+                    </div>
+                    <div class="card-content collpase show">
+                        <div class="card-body card-dashboard">
+                            <div class="heading-elements">
+                                <button type="button" class="btn btn-outline-danger btn-lg" id="reset_all_users">
+                                    Reset All Users
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -166,6 +190,50 @@
 
         var mytable;
 
+        /* Rest All Users Record using AJAX Requres */
+        $(document).on('click', '#reset_all_users', function () {
+            swal({
+                title: "Are you sure?",
+                text: "It will reset all users to their original passwords!",
+                icon: "warning",
+                buttons: {
+                    cancel: {
+                        text: "No, cancel it!",
+                        value: null,
+                        visible: true,
+                        className: "",
+                        closeModal: false,
+                    },
+                    confirm: {
+                        text: "Yes, reset all!",
+                        value: true,
+                        visible: true,
+                        className: "btn-danger",
+                        closeModal: false
+                    }
+                }
+            })
+                .then((isConfirm) => {
+                    if (isConfirm) {
+                        $.ajax(
+                            {
+                                url: "users/resetall",
+                                type: 'GET',
+                                success: function (result) {
+                                    swal("Restored!", "Your Record are restored to default password.", "success");
+                                    mytable.draw();
+                                },
+                                error: function (request, status, error) {
+                                    var val = request.responseText;
+                                    alert("error" + val);
+                                }
+                            });
+                    } else {
+                        swal("Cancelled", "Your records are safe", "error");
+                    }
+                });
+        });
+
         /* DELETE Record using AJAX Requres */
         $(document).on('click', '.delete', function () {
 
@@ -219,7 +287,7 @@
                 });
         });
 
-        /* DELETE Record using AJAX Requres */
+        /* Reset Record using AJAX Requres */
         $(document).on('click', '.reset', function () {
 
             var user_id = $(this).data("user-id");

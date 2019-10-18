@@ -31,15 +31,15 @@
                     <div class="card-content collpase show">
                         <div class="card-body card-dashboard">
 
-                            <table class="table table-responsive table-striped table-bordered dynamic-table" width="100%">
+                            <table class="table table-striped table-bordered dynamic-table" width="100%">
                                 <thead>
                                 <tr>
                                     <th>Name</th>
                                     <th>Secret</th>
                                     <th>IPAddress</th>
                                     <th>Description</th>
-                                    <th width="50px;">Edit</th>
-                                    <th width="50px;">Delete</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
                                 </tr>
                                 </thead>
                             </table>
