@@ -153,7 +153,7 @@
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="description">Username</label>
-                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username','readonly']) !!}
+                        {!! Form::text('username',null,['id'=>'username', 'class'=>'form-control', 'required'=>'true', 'placeholder'=>'Enter Username']) !!}
                     </fieldset>
                     <fieldset class="form-group floating-label-form-group">
                         <label for="poster">Password</label>
@@ -318,7 +318,7 @@
                     if (isConfirm) {
                         $.ajax(
                             {
-                                url: "users/" + user_id,
+                                url: "users/" + user_id + "/reset",
                                 type: 'POST',
                                 data: {
                                     "user_id": user_id,
